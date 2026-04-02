@@ -1,6 +1,5 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --purple-50:  #f5f3ff;
       --purple-100: #ede9fe;
