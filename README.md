@@ -10,8 +10,6 @@ A modern Laravel-based web application for managing formations (training program
 - **Multi-Language Support**: Internationalization (i18n) with English and French
 - **Responsive Dashboard**: Modern UI with Vite-powered asset bundling
 - **Database Migrations**: Organized schema management with seeders
-- **Real-time Broadcasting**: Event-driven architecture with Laravel Broadcasting
-- **RESTful API**: API-ready architecture with sanctum authentication
 
 ## 📋 Requirements
 
