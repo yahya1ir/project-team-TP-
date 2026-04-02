@@ -28,8 +28,6 @@ Route::get('/', function () {
         : redirect()->route('formation');
 });
 
-
-
 // Authentication routes
 Route::middleware('guest')->group(function () {
     Route::get('/register', [Usercontroller::class, 'register'])->name('register');
@@ -37,7 +35,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/register/post', [Usercontroller::class, 'registerPost'])->name('register.post');
     Route::post('/login/post', [Usercontroller::class, 'loginPost'])->name('login.post');
 });
-
 
 // Protected routes (role sync)
 Route::middleware(['auth', 'sync.role'])->group(function () {
@@ -55,28 +52,18 @@ Route::middleware(['auth', 'sync.role'])->group(function () {
         ->middleware('permission:view formations|manage formations')
         ->name('formation');
 
-
-
     Route::post('/addformation/store', [Usercontroller::class, 'store'])
         ->middleware('permission:manage formations')
         ->name('formation.post');
-
-
-
 
     // innsert data formation    
     Route::post('/formations/store', [Usercontroller::class, 'store'])
         ->middleware('permission:manage formations')
         ->name('formations.store');
 
-
-
-
-
     Route::delete('/addformation/delete/{id}', [Usercontroller::class, 'destroy'])
         ->middleware('permission:manage formations')
         ->name('delete.post');
-
 
     // delte post    
     Route::delete('/formations/{id}', [Usercontroller::class, 'destroy'])
@@ -88,18 +75,14 @@ Route::middleware(['auth', 'sync.role'])->group(function () {
         ->middleware('permission:manage users')
         ->name('users.index');
   
-
     // role to teacher    
     Route::post('/users/assign-teacher', [Usercontroller::class, 'assignTeacherRole'])
         ->middleware('permission:manage users')
         ->name('users.assign-teacher');
 
-
-
     Route::view('/super-admin', 'super-admin')
         ->middleware('role:Super Admin')
         ->name('super-admin.index');
-
 
     // Update profile
     Route::put('/profile', [Acchanndler::class, 'update'])->name('profile.update');
