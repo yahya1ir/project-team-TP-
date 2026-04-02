@@ -111,7 +111,7 @@ class Usercontroller extends Controller
         ]);
     }
 
-  // formation
+      // formation
      public function formation(){
           $this->authorize('view formations');
 
@@ -144,7 +144,7 @@ class Usercontroller extends Controller
             'studentUsers' => $users->filter(fn (User $user) => $user->hasRole('Student'))->count(),
         ]);
     }
-     // role to teacher
+    // role to teacher
     public function assignTeacherRole(Request $request)
     {
         $this->authorize('manage users');
@@ -175,116 +175,116 @@ class Usercontroller extends Controller
         return redirect()->route('users.index')->with('success', 'Teacher role assigned successfully.');
     }
 
-// login logic
-public function loginPost(Request $req)
-{
-    $credentials = $req->validate([
-        'email' => ['required', 'email'],
-        'password' => ['required', 'string'],
-    ], [
-        'email.required' => __('messages.auth.emailRequired'),
-        'email.email' => __('messages.auth.enterValidEmail'),
-        'password.required' => __('messages.auth.passwordRequired'),
-    ]);
-
-    $user = User::where('email', $credentials['email'])->first();
-
-    if (! $user) {
-        throw ValidationException::withMessages([
-            'email' => __('messages.auth.emailNotFound'),
+    // login logic
+    public function loginPost(Request $req)
+    {
+        $credentials = $req->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
+        ], [
+            'email.required' => __('messages.auth.emailRequired'),
+            'email.email' => __('messages.auth.enterValidEmail'),
+            'password.required' => __('messages.auth.passwordRequired'),
         ]);
+    
+        $user = User::where('email', $credentials['email'])->first();
+    
+        if (! $user) {
+            throw ValidationException::withMessages([
+                'email' => __('messages.auth.emailNotFound'),
+            ]);
+        }
+    
+        if (! Hash::check($credentials['password'], $user->password)) {
+            throw ValidationException::withMessages([
+                'password' => __('messages.auth.incorrectPassword'),
+            ]);
+        }
+    
+        Auth::login($user, $req->boolean('remember'));
+        $req->session()->regenerate();
+        $this->assignRoleByEmailOnLogin($user);
+    
+        return $this->redirectToRoleHome($user);
     }
 
-    if (! Hash::check($credentials['password'], $user->password)) {
-        throw ValidationException::withMessages([
-            'password' => __('messages.auth.incorrectPassword'),
+    // register logic 
+    public function registerPost(Request $req)
+    {
+        $req->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'phone'    => 'required|string|max:20',
+            'password' => 'required|min:8|confirmed',
+            'language' => 'required|in:fr,en',
+            'status'   => 'required|in:active,inactive',
         ]);
+    
+        $user = User::create([
+            'name'     => $req->name,
+            'email'    => $req->email,
+            'phone'    => $req->phone,
+            'password' => Hash::make($req->password),
+            'language' => $req->language,
+            'status'   => $req->status,
+        ]);
+    
+        $user->assignRole('Student');
+    
+    
+        return $this->redirectToRoleHome($user)->with('success', __('messages.auth.registerSuccess'));
     }
 
-    Auth::login($user, $req->boolean('remember'));
-    $req->session()->regenerate();
-    $this->assignRoleByEmailOnLogin($user);
-
-    return $this->redirectToRoleHome($user);
-}
-
-// register logic 
-public function registerPost(Request $req)
-{
-    $req->validate([
-        'name'     => 'required|string|max:255',
-        'email'    => 'required|email|unique:users,email',
-        'phone'    => 'required|string|max:20',
-        'password' => 'required|min:8|confirmed',
-        'language' => 'required|in:fr,en',
-        'status'   => 'required|in:active,inactive',
-    ]);
-
-    $user = User::create([
-        'name'     => $req->name,
-        'email'    => $req->email,
-        'phone'    => $req->phone,
-        'password' => Hash::make($req->password),
-        'language' => $req->language,
-        'status'   => $req->status,
-    ]);
-
-    $user->assignRole('Student');
 
 
-    return $this->redirectToRoleHome($user)->with('success', __('messages.auth.registerSuccess'));
-}
-
-
-
-// store formations
-   public function store(Request $request)
-{
-    $this->authorize('manage formations');
-
-    $request->validate([
-        'title_fr'             => 'required|string|max:255',
-        'level'                => 'nullable|in:Beginner,Intermediate,Advanced',
-        'duration'             => 'nullable|string|max:100',
-        'short_description_fr' => 'nullable|string',
-        'full_description_fr'  => 'nullable|string',
-    ]);
-
-    Formation::create([
-        'title_fr'             => $request->title_fr,
-        'email'                => Auth::user()->email,
-        'level'                => $request->level ?? 'Beginner',
-        'duration'             => $request->duration,
-        'short_description_fr' => $request->short_description_fr,
-        'full_description_fr'  => $request->full_description_fr,
-    ]);
-
-    return redirect('addformation')->with('success', __('messages.formations.createdSuccess'));
-}
-
-
-// delete post 
-public function destroy($id){
-    $this->authorize('manage formations');
-
-    $formation = Formation::findOrFail($id);
-    $formation->delete();
-    return redirect('addformation');
-}
-
-// logout
-public function logout(){
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/');
-}
-
-// language
-public function setLanguage($locale){
-    if (in_array($locale, ['en', 'fr'])) {
-        session(['locale' => $locale]);
+    // store formations
+    public function store(Request $request)
+    {
+        $this->authorize('manage formations');
+    
+        $request->validate([
+            'title_fr'             => 'required|string|max:255',
+            'level'                => 'nullable|in:Beginner,Intermediate,Advanced',
+            'duration'             => 'nullable|string|max:100',
+            'short_description_fr' => 'nullable|string',
+            'full_description_fr'  => 'nullable|string',
+        ]);
+    
+        Formation::create([
+            'title_fr'             => $request->title_fr,
+            'email'                => Auth::user()->email,
+            'level'                => $request->level ?? 'Beginner',
+            'duration'             => $request->duration,
+            'short_description_fr' => $request->short_description_fr,
+            'full_description_fr'  => $request->full_description_fr,
+        ]);
+    
+        return redirect('addformation')->with('success', __('messages.formations.createdSuccess'));
     }
-    return redirect()->back();
-}
+
+
+    // delete post 
+    public function destroy($id){
+        $this->authorize('manage formations');
+    
+        $formation = Formation::findOrFail($id);
+        $formation->delete();
+        return redirect('addformation');
+    }
+    
+    // logout
+    public function logout(){
+        Auth::logout();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
+        return redirect('/');
+    }
+    
+    // language
+    public function setLanguage($locale){
+        if (in_array($locale, ['en', 'fr'])) {
+            session(['locale' => $locale]);
+        }
+        return redirect()->back();
+    }
 }
