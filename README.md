@@ -192,4 +192,4 @@ php artisan test --filter=FormationTest
 4. Submit a pull request
 
 
-**Happy coding!  🎉**  --by irfane yahya
+**Happy coding!  🎉**  --by irfane yahya & Ezzaytouni Othmane & yahya laadam & youssef bahloul & salah-eddine moussalim
