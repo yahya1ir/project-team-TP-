@@ -185,9 +185,6 @@ php artisan test --filter=FormationTest
 
 5. Enable HTTPS and configure CORS as needed
 
-## 📝 API Endpoints
-
-(Add your API routes here)
 
 ## 🤝 Contributing
 
