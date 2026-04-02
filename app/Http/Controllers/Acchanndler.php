@@ -12,9 +12,6 @@ class Acchanndler extends Controller
     public function settings(){
         return view('settings');
     }
-    
-   
-
 
     // Update password (settings)
     public function password(Request $request){
@@ -22,7 +19,7 @@ class Acchanndler extends Controller
             'current_password' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
+        
         // Check if current password is correct
         if (!Hash::check($validated['current_password'], auth()->user()->password)) {
             return back()->withErrors(['current_password' => __('messages.password.incorrect')]);
@@ -35,6 +32,4 @@ class Acchanndler extends Controller
 
         return back()->with('success', __('messages.password.updated'));
     }
-
-
 }
