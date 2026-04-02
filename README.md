@@ -1,66 +1,200 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Formation Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A modern Laravel-based web application for managing formations (training programs) with role-based access control, multi-language support, and a responsive dashboard.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Formation Management**: Create, read, update, and delete formations
+- **User Authentication**: Secure login and registration system
+- **Role-Based Access Control (RBAC)**: Permission-based authorization using Spatie Laravel-Permission
+- **Multi-Language Support**: Internationalization (i18n) with English and French
+- **Responsive Dashboard**: Modern UI with Vite-powered asset bundling
+- **Database Migrations**: Organized schema management with seeders
+- **Real-time Broadcasting**: Event-driven architecture with Laravel Broadcasting
+- **RESTful API**: API-ready architecture with sanctum authentication
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **PHP**: 8.1 or higher
+- **Composer**: Latest version
+- **Node.js**: 16+ (for Vite asset compilation)
+- **npm** or **yarn**: Package manager for frontend dependencies
+- **Database**: MySQL, PostgreSQL, SQLite, or SQL Server
+- **Laravel**: 11.x
 
-## Learning Laravel
+## 🛠️ Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 1. Clone the Repository
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+git clone <repository-url>
+cd projet-vite-fait
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 2. Install PHP Dependencies
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 3. Install Frontend Dependencies
 
-### Premium Partners
+```bash
+npm install
+# or
+yarn install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 4. Environment Setup
 
-## Contributing
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Then update your `.env` file with:
+- Database credentials
+- App URL and name
+- Mail configuration (if needed)
+- Other service credentials
 
-## Code of Conduct
+### 5. Database Setup
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan migrate
+php artisan db:seed
+```
 
-## Security Vulnerabilities
+This will:
+- Create all necessary tables
+- Seed roles and permissions
+- Create test users if seeders are configured
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 6. Configure Internationalization
 
-## License
+The project includes multilingual support. See [I18N_SETUP_GUIDE.md](I18N_SETUP_GUIDE.md) for detailed i18n configuration.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🏃 Running the Application
+
+### Development Mode
+
+**Terminal 1 - Vite Dev Server** (for asset hot-reload):
+```bash
+npm run dev
+```
+
+**Terminal 2 - Laravel Server**:
+```bash
+php artisan serve
+```
+
+The application will be available at `http://localhost:8000`
+
+### Production Build
+
+```bash
+npm run build
+php artisan migrate --force
+```
+
+## 📁 Project Structure
+
+```
+├── app/                          # Application logic
+│   ├── Console/                  # Artisan commands
+│   ├── Exceptions/               # Exception handling
+│   ├── Http/
+│   │   ├── Controllers/          # Request handlers
+│   │   ├── Kernel.php            # Middleware configuration
+│   │   └── Middleware/           # HTTP middleware
+│   ├── Models/                   # Eloquent models (Formation, User)
+│   └── Providers/                # Service providers
+├── config/                       # Configuration files
+│   ├── app.php                   # Application config
+│   ├── auth.php                  # Authentication config
+│   ├── permission.php            # Permission/RBAC config
+│   └── ...
+├── database/
+│   ├── factories/                # Model factories for testing
+│   ├── migrations/               # Database schema migrations
+│   └── seeders/                  # Database seeders
+├── lang/                         # Internationalization files
+│   ├── en/messages.php           # English translations
+│   └── fr/messages.php           # French translations
+├── public/                       # Public assets (served directly)
+│   ├── Css/                      # Custom stylesheets
+│   └── JS/                       # Custom JavaScript
+├── resources/
+│   ├── css/                      # Vite-processed styles
+│   ├── js/                       # Vite-processed scripts
+│   └── views/                    # Blade templates
+├── routes/
+│   ├── api.php                   # API routes
+│   ├── web.php                   # Web routes
+│   ├── channels.php              # Broadcasting channels
+│   └── console.php               # Console commands
+├── storage/                      # User uploads, logs, cache
+├── tests/                        # PHPUnit test suite
+├── vite.config.js                # Vite configuration
+├── composer.json                 # PHP dependencies
+├── package.json                  # Node dependencies
+└── phpunit.xml                   # PHPUnit configuration
+```
+
+## 🔐 Authentication & Authorization
+
+- **Default Authentication**: Uses Laravel's built-in authentication
+- **Permission System**: Powered by [Spatie Laravel-Permission](https://spatie.be/docs/laravel-permission/v6/introduction)
+- **API Authentication**: Sanctum for token-based API access
+
+## 🌍 Internationalization (i18n)
+
+- Supported languages: English (en), French (fr)
+- Language files located in `lang/` directory
+- Refer to [I18N_SETUP_GUIDE.md](I18N_SETUP_GUIDE.md) for switching languages and adding new locales
+
+## 🧪 Testing
+
+Run tests with PHPUnit:
+
+```bash
+php artisan test
+```
+
+For specific test suite:
+```bash
+php artisan test --filter=FormationTest
+```
+
+## 🚀 Deployment
+
+1. Install production dependencies:
+   ```bash
+   composer install --optimize-autoloader --no-dev
+   npm run build
+   ```
+
+2. Configure environment variables in `.env`
+
+3. Run migrations:
+   ```bash
+   php artisan migrate --force
+   ```
+
+4. Set up a web server (Nginx/Apache) pointing to the `public/` directory
+
+5. Enable HTTPS and configure CORS as needed
+
+## 📝 API Endpoints
+
+(Add your API routes here)
+
+## 🤝 Contributing
+
+1. Create a new branch for your feature: `git checkout -b feature/your-feature`
+2. Commit your changes: `git commit -am 'Add new feature'`
+3. Push to the branch: `git push origin feature/your-feature`
+4. Submit a pull request
+
+
+**Happy coding! 🎉**
