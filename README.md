@@ -10,8 +10,6 @@ A modern Laravel-based web application for managing formations (training program
 - **Multi-Language Support**: Internationalization (i18n) with English and French
 - **Responsive Dashboard**: Modern UI with Vite-powered asset bundling
 - **Database Migrations**: Organized schema management with seeders
-- **Real-time Broadcasting**: Event-driven architecture with Laravel Broadcasting
-- **RESTful API**: API-ready architecture with sanctum authentication
 
 ## 📋 Requirements
 
@@ -194,4 +192,4 @@ php artisan test --filter=FormationTest
 4. Submit a pull request
 
 
-**Happy coding! 🎉**
+**Happy coding!  🎉**  --by irfane yahya
